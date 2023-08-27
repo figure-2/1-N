@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>{{article.title}}</h1>
+    <p>{{article.content}}</p>
+
+    <hr>
+
+    <form action="{% url 'articles:comment_create' article_id=article.id %}" method="POST">
+        {% csrf_token %}
+        {{comment_form}}
+        <input type="submit">
+    </form>
+
+    {% if not article.comment_set.all|length %}
+    <!-- |(파이프)length은 아래와 동일한 행동을 하는 코드지만 장고 행동 하지 않는다.
+        len(article.comment_set.all) -->
+        <p>댓글이 없습니다.</p>
+    {% endif %}
+
+    <!-- {% for comment in comment_list %} -->
+    <!-- 세번제 방법 으로
+        아래에 처럼 쓰기 위해서는 article/views.py 의 line 63 주석 처리  -->
+    {% for comment in article.comment_set.all %}
+        <p>
+            {{comment.content}} 
+            <a href="{% url 'articles:comment_delete' article_id=article.id id=comment.id %}">X</a> 
+        </p>
+    {% endfor %}
+
+
+{% endblock %}
+
+

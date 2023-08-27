@@ -4,6 +4,8 @@
 
     {% for article in articles %}
         <p>{{article.title}}</p>
+        <a href="{% url 'articles:detail' id=article.id %}">detail</a>
+        <!-- id=article.id 는 몇번 게시물을 보여줘 라는 요청 -->
         <hr>
     {% endfor %}
 
